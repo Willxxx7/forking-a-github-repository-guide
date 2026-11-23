@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fork a GitHub Repository</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0d1117;
+        --surface: #161b22;
+        --border: #30363d;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #58a6ff;
+        --success: #3fb950;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #ffffff;
+          --surface: #f6f8fa;
+          --border: #d0d7de;
+          --text: #1f2328;
+          --muted: #59636e;
+          --accent: #0969da;
+          --success: #1a7f37;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.6 system-ui, -apple-system, sans-serif;
+      }
+      header { margin-bottom: 2.5rem; }
+      h1 { line-height: 1.15; margin-bottom: .5rem; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: .35rem; }
+      .subtitle { color: var(--muted); }
+      .card {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 1rem 1.25rem;
+        margin: 1rem 0;
+      }
+      .steps { counter-reset: step; list-style: none; padding: 0; }
+      .steps li { counter-increment: step; margin: 1.25rem 0; position: relative; padding-left: 3.25rem; }
+      .steps li::before {
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        font-weight: 700;
+      }
+      pre {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--surface);
+        padding: 1rem;
+      }
+      code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+      a { color: var(--accent); }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { text-align: left; border: 1px solid var(--border); padding: .65rem; }
+      .remote { color: var(--success); font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>How to Fork a GitHub Repository</h1>
+      <p class="subtitle">Fork, clone, branch, commit, push, sync, and create a pull request.</p>
+    </header>
+
+    <main>
+      <section>
+        <h2>Understand the workflow</h2>
+        <div class="card">
+          <strong>Colleague's repository</strong> → <strong>Fork</strong> → <strong>Your repository</strong> → <strong>Clone</strong> → <strong>Local changes</strong> → <strong>Push</strong> → <strong>Pull request</strong>
+        </div>
+        <table>
+          <thead><tr><th>Action</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>Fork</td><td>Creates your GitHub copy.</td></tr>
+            <tr><td>Clone</td><td>Downloads the copy to your computer.</td></tr>
+            <tr><td>Branch</td><td>Isolates a change.</td></tr>
+            <tr><td>Commit</td><td>Records it in local Git history.</td></tr>
+            <tr><td>Push</td><td>Uploads commits to your fork.</td></tr>
+            <tr><td>Pull request</td><td>Requests merging into the original repository.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Steps</h2>
+        <ol class="steps">
+          <li>
+            <strong>Fork the repository</strong>
+            <p>Sign in to GitHub, open the colleague's repository, select <strong>Fork</strong>, choose your account as the owner, and select <strong>Create fork</strong>.</p>
+          </li>
+          <li>
+            <strong>Clone it in Visual Studio Code</strong>
+            <p>Open the fork, select <strong>Code</strong>, copy the HTTPS URL, press <strong>Ctrl+Shift+P</strong>, run <strong>Git: Clone</strong>, and select a local folder.</p>
+          </li>
+          <li>
+            <strong>Add the original repository</strong>
+            <pre><code>git remote add upstream https://github.com/colleague/IoT-Project.git
+git remote -v</code></pre>
+            <p><span class="remote">origin</span> is your fork; <span class="remote">upstream</span> is the colleague's original repository.</p>
+          </li>
+          <li>
+            <strong>Create a branch and make changes</strong>
+            <pre><code>git switch -c feature/my-change
+# Edit files in VS Code
+git add .
+git commit -m "Add temperature alert"
+git push -u origin feature/my-change</code></pre>
+          </li>
+          <li>
+            <strong>Open a pull request</strong>
+            <p>On GitHub, open your fork and select <strong>Compare & pull request</strong>. Verify the base repository, target branch, and your feature branch before submitting.</p>
+          </li>
+          <li>
+            <strong>Keep the fork updated</strong>
+            <pre><code>git switch main
+git fetch upstream
+git merge upstream/main
+git push origin main</code></pre>
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Troubleshooting</h2>
+        <div class="card">
+          <strong>Permission denied:</strong> Switch from SSH to HTTPS or configure a GitHub SSH key.
+        </div>
+        <div class="card">
+          <strong>Not a Git repository:</strong> Change into the cloned folder or run the clone command again.
+        </div>
+        <div class="card">
+          <strong>Push rejected:</strong> Fetch remote changes, merge or rebase, resolve conflicts, and push again.
+        </div>
+        <div class="card">
+          <strong>Changes missing from the original:</strong> Pushing updates only the fork. A pull request is needed for the original repository.
+        </div>
+      </section>
+
+      <section>
+        <h2>More information</h2>
+        <p><a href="https://github.com/Willxxx7/forking-a-github-repository-guide">View the source repository</a></p>
+      </section>
+    </main>
+  </body>
+</html>
